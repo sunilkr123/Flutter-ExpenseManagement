@@ -14,10 +14,9 @@ class UserTransaction extends StatefulWidget {
 class _UserTransaction extends State<UserTransaction> {
 
     final List<TransactionData> _transaction = [
-      TransactionData("1", "abc", 12.2, DateTime.now()),
-      TransactionData("1", "abc", 12.2, DateTime.now()),
-      TransactionData("1", "abc", 12.2, DateTime.now()),
-      TransactionData("1", "abc", 12.2, DateTime.now())
+      TransactionData("1", "Books", 12.2444, DateTime.now()),
+      TransactionData("1", "New Shoes", 12.2444, DateTime.now()),
+
     ];
 
     void _addTransaction(String txtTitle,double txtAmount) {
@@ -29,16 +28,18 @@ class _UserTransaction extends State<UserTransaction> {
 
   @override
   Widget build(BuildContext context) {
- return Column(children: [
-   // Container(
-   //   width: double.infinity,
-   //   child: Card(
-   //     color: Colors.blue,
-   //     child: Text('My New Chart'),
-   //   ),
-   // ),
-   Newtransaction(_addTransaction),
-   TransactionList(_transaction),
- ],);
+ return Container(
+   child: Column(children: [
+     // Container(
+     //   width: double.infinity,
+     //   child: Card(
+     //     color: Colors.blue,
+     //     child: Text('My New Chart'),
+     //   ),
+     // ),
+     Newtransaction(_addTransaction),
+     TransactionList(_transaction),
+   ],),
+ );
   }
 }
