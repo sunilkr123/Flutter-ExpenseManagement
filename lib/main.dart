@@ -83,7 +83,9 @@ class _MyHomePageState extends State<MyHomePage> {
         icon: Icon(Icons.add)),
         ],
       ),
-     body: Container( child:
+     body: _transaction.isEmpty ? Center(
+       child: Image.asset('assets/images/nodata.png',fit: BoxFit.cover,),
+     ) : Container( child:
          Column(children: [
            Chart(_recentTransactions),
           TransactionList(_transaction),
