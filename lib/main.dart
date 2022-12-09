@@ -1,6 +1,8 @@
- import 'package:expense_management/new_transaction.dart';
+ import 'package:expense_management/chart.dart';
+import 'package:expense_management/new_transaction.dart';
 import 'package:expense_management/transaction_list.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
  import './user_transaction.dart';
  import './transaction.dart';
 
@@ -44,6 +46,15 @@ class _MyHomePageState extends State<MyHomePage> {
   //   TransactionData("1", "Books", 12.2444, DateTime.now()),
   //   TransactionData("1", "New Shoes", 12.2444, DateTime.now()),
   // ];
+  // return _transaction.where(
+  // (tx) {
+  // return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)) );
+  // });
+  List<TransactionData> get _recentTransactions {
+    return _transaction.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
 
   void _addTransaction(String txtTitle,double txtAmount) {
     final newTxt = TransactionData(DateTime.now().toString(), txtTitle, txtAmount, DateTime.now());
@@ -73,10 +84,9 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
      body: Container( child:
-         _transaction.isEmpty ? Center(
-            child: Image.asset('assets/images/nodata.png',fit: BoxFit.cover,),
-         ) : Column(children: [
-         TransactionList(_transaction),
+         Column(children: [
+           Chart(_recentTransactions),
+          TransactionList(_transaction),
        ],),
      ),
     floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -88,3 +98,8 @@ class _MyHomePageState extends State<MyHomePage> {
      );
   }
 }
+/*
+* _transaction.isEmpty ? Center(
+            child: Image.asset('assets/images/nodata.png',fit: BoxFit.cover,),
+         ) :
+* */
