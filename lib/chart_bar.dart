@@ -14,7 +14,7 @@ class ChartBar extends StatelessWidget {
         Text('\$${spendingAmount.toStringAsFixed(0)}'),
         SizedBox(height: 4,),
         Container(
-          height: 60,
+          height: 70,
           width: 10,
           child: Stack(
             children: [
@@ -35,7 +35,8 @@ class ChartBar extends StatelessWidget {
         ),
         SizedBox(
           height: 4,
-        )
+        ),
+        Text(label),
       ],
     );
   }

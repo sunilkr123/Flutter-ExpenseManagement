@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 class Newtransaction extends StatefulWidget {
   final Function addTrans;
   Newtransaction(this.addTrans);
@@ -12,15 +12,36 @@ class _NewtransactionState extends State<Newtransaction> {
   final titleController = TextEditingController();
   final amountController = TextEditingController();
 
+  DateTime? _selectedDate;
+
   void onSubmitData() {
    final titleValue = titleController.text;
    final amountValue = double.parse(amountController.text);
-   if (titleValue.isEmpty || amountValue < 0) {
+   if (titleValue.isEmpty || amountValue < 0 || _selectedDate == null) {
      return;
    }
-   widget.addTrans(titleValue, amountValue);
+   widget.addTrans(titleValue, amountValue, _selectedDate);
    Navigator.of(context).pop();
   }
+
+   void _showDatePicker()  {
+      showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2015),
+        lastDate: DateTime.now(),
+      ).then( (pickedDate) {
+        if (pickedDate == null) {
+          return;
+        }
+        setState(() {
+          _selectedDate = pickedDate;
+        });
+
+      });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +71,22 @@ class _NewtransactionState extends State<Newtransaction> {
                 onSubmitted: (_)=> onSubmitData,
                 style: TextStyle(fontFamily: 'OpenSans',fontSize: 16, fontWeight: FontWeight.bold),
               ),
-             SizedBox(height: 50,)
-          ,
-              // TextButton(onPressed:  () {
-              //   onSubmitData();
-              //   // this.addTrans(titleController.text, double.parse(amountController.text));
-              // }, child: Text('Add Transaction'))
+              Container(
+                height: 60,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(_selectedDate == null ? 'No Date Choose!' : 
+                      'Picked date: ${DateFormat('yyyy-MMM-dd, MM:hh a').format(_selectedDate!)}'),
+                    ),
+                    TextButton(
+                      onPressed: _showDatePicker,
+                      child: Text('Choose Date', style: TextStyle(color: Theme.of(context).primaryColor,fontWeight: FontWeight.bold),),
+                    )
+                  ],
+                ),
+              ),
+             SizedBox(height: 10,),
               SizedBox(
                 width: 250,
                 height: 40,

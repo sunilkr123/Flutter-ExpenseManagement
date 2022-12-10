@@ -32,7 +32,7 @@ class _UserTransaction extends State<UserTransaction> {
    SizedBox(
        //height: 200,
        child: Newtransaction(_addTransaction)),
-   TransactionList(_transaction),
+   // TransactionList(_transaction),
  ],);
   }
 }

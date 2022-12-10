@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Expense Management App",
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.purple,
         accentColor: Colors.cyan,
         fontFamily: 'OpenSans',
         textTheme: ThemeData.light().textTheme.copyWith(
@@ -42,22 +42,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<TransactionData> _transaction =  [];
 
-  // [
-  //   TransactionData("1", "Books", 12.2444, DateTime.now()),
-  //   TransactionData("1", "New Shoes", 12.2444, DateTime.now()),
-  // ];
-  // return _transaction.where(
-  // (tx) {
-  // return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)) );
-  // });
   List<TransactionData> get _recentTransactions {
     return _transaction.where((tx) {
       return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
     }).toList();
   }
 
-  void _addTransaction(String txtTitle,double txtAmount) {
-    final newTxt = TransactionData(DateTime.now().toString(), txtTitle, txtAmount, DateTime.now());
+  void _addTransaction(String txtTitle,double txtAmount, DateTime selectedDate) {
+    final newTxt = TransactionData(DateTime.now().toString(), txtTitle, txtAmount, selectedDate);
     setState(() {
       _transaction.add(newTxt);
     });
@@ -70,6 +62,12 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Newtransaction(_addTransaction),
           behavior: HitTestBehavior.opaque,
       );
+    });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _transaction.removeWhere((element) => element.id == id);
     });
   }
 
@@ -88,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
      ) : Container( child:
          Column(children: [
            Chart(_recentTransactions),
-          TransactionList(_transaction),
+          TransactionList(_transaction,_deleteTransaction),
        ],),
      ),
     floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -100,8 +98,3 @@ class _MyHomePageState extends State<MyHomePage> {
      );
   }
 }
-/*
-* _transaction.isEmpty ? Center(
-            child: Image.asset('assets/images/nodata.png',fit: BoxFit.cover,),
-         ) :
-* */
